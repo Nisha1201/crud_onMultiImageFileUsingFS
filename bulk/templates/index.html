@@ -1,0 +1,58 @@
+{% comment %} {% include 'update_image.html' %} {% endcomment %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <title>Image url</title>
+    <style>
+      img {
+        height: 200px;
+        width: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <input type="file" name="images" multiple />
+      <button class="btn btn-warning btn-sm">Upload</button>
+    </form>
+    <hr />
+    <form>
+      {% csrf_token %} 
+      {% for img in final_images %}
+      <h5>{{img}}</h5>
+      {% comment %} <h4>{{img.0}}</h4> {% endcomment %}
+
+      {% for im in img %}
+      <div class="image-container">
+        
+        <a href="{{im}}"><p>{{im}}</p> </a>
+        <img src="{{im}}" alt="Image" />
+        <form method="POST" action="{% url 'update_image' id=img.0 %}" enctype="multipart/form-data">
+          {% csrf_token %}
+          <input type="hidden" name="image_name" value="{{im}}" />
+          <input type="file" name="new_images" />
+          <button class="btn btn-success">Update</button>
+        </form>
+
+        <form method="POST" action="{% url 'delete_image' id=img.0 %}">
+          {% csrf_token %}
+          <input type="hidden" name="image_delete" value="{{im}}">
+          <button class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+
+      {% endfor %}
+      {% endfor %}
+    </form>
+  </body>
+</html>
