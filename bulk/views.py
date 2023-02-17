@@ -97,7 +97,7 @@ def update_image(request, id):
         image.image = new_image_field
         # print("imimimimimimimimimimimimimi: ",image.image)
         image.save()
-        # messages.success(request,'Updated Successfully !!')  
+        messages.success(request,'Updated Successfully !!')  
 
         return redirect('bulk_upload')
 
@@ -145,7 +145,7 @@ def delete_image(request, id):
 
         # print('ajkadnjkanakjnkjnjkn',new_value)
         # redirect to the index page
-        # messages.success(request,'Deleted Successfully !!')  
+        messages.success(request,'Deleted Successfully !!')  
         return redirect('bulk_upload')
         
     return render(request,'index.html')
