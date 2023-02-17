@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Image
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
 # Create your views here.
 from django.http import HttpResponseNotAllowed
 
@@ -29,7 +30,10 @@ def my_view(request):
             final_url = ','.join(img_url_store)
             # print("final url", final_url)
             record = Image(image=final_url)
+           
             record.save()
+            messages.success(request,'Uploaded Successfully !!')  
+
             # print(file_url)
         
     images = Image.objects.all()
@@ -48,8 +52,7 @@ def my_view(request):
             img_lst.append(i)
         all_image.append(img_lst)
         # all_image=[j[1:] for j in all_image]
-            
-
+       
     print("qqqqqqqqqqqqqqqqqqqqqqqqqqq:  ", all_image)
 
     return render(request, "index.html", {'final_images': all_image })
@@ -94,6 +97,8 @@ def update_image(request, id):
         image.image = new_image_field
         # print("imimimimimimimimimimimimimi: ",image.image)
         image.save()
+        # messages.success(request,'Updated Successfully !!')  
+
         return redirect('bulk_upload')
 
 # def update_image(request, file_path):
@@ -140,6 +145,7 @@ def delete_image(request, id):
 
         # print('ajkadnjkanakjnkjnjkn',new_value)
         # redirect to the index page
+        # messages.success(request,'Deleted Successfully !!')  
         return redirect('bulk_upload')
         
     return render(request,'index.html')

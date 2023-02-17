@@ -25,14 +25,22 @@
       <input type="file" name="images" multiple />
       <button class="btn btn-warning btn-sm">Upload</button>
     </form>
+    {% if messages %} {% for message in messages %}
+        <small {% if message.tags %} class="{{message.tags}}" {% endif %}>
+          {{message}}
+        </small>
+        {% endfor %} {% endif %}
     <hr />
-    <form>
-      {% csrf_token %} 
-      {% for img in final_images %}
-      <h5>{{img}}</h5>
-      {% comment %} <h4>{{img.0}}</h4> {% endcomment %}
 
+    {% comment %} <form> {% endcomment %}
+      {% comment %} {% csrf_token %}  {% endcomment %}
+      {% for img in final_images %}
+      <h4>{{img.0}}</h4>
+      {% comment %} <h5>{{img}}</h5> {% endcomment %}
       {% for im in img %}
+      {% if not forloop.first %}
+     
+
       <div class="image-container">
         
         <a href="{{im}}"><p>{{im}}</p> </a>
@@ -43,16 +51,20 @@
           <input type="file" name="new_images" />
           <button class="btn btn-success">Update</button>
         </form>
-
+        
         <form method="POST" action="{% url 'delete_image' id=img.0 %}">
           {% csrf_token %}
           <input type="hidden" name="image_delete" value="{{im}}">
           <button class="btn btn-danger">Delete</button>
         </form>
+        
       </div>
+     
+      {% endif %}
+      {% endfor %}
+      {% endfor %}
+      
 
-      {% endfor %}
-      {% endfor %}
-    </form>
+    {% comment %} </form> {% endcomment %}
   </body>
 </html>
