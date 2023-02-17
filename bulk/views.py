@@ -23,12 +23,14 @@ def my_view(request):
                 fs = FileSystemStorage()
                 # the file_url variable now contains the url to the file. This can be used to serve the file when needed.
                 file = fs.save(img.name, img)
+                # print(img.name,"kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+                # print(img,"tttttttttttttttttttttttttttttttttttt")
                 file_url = fs.url(file)
                 img_url_store.append(file_url)
             # print(img_url_store)
        
             final_url = ','.join(img_url_store)
-            # print("final url", final_url)
+            # print("final url:       ", final_url)
             record = Image(image=final_url)
            
             record.save()
@@ -37,23 +39,23 @@ def my_view(request):
             # print(file_url)
         
     images = Image.objects.all()
-    # print(images,"oooooooooooooooooooooooooooooo")
+    print(images,"oooooooooooooooooooooooooooooo")
 
     all_image = []
     for first_ob in images:
         lst = first_ob.image.split(',')
         img_id=first_ob.id
-        # print(lst,"llllllllllllllllllllllllllllllllllllllllllllllllllll")
+        print(lst,"llllllllllllllllllllllllllllllllllllllllllllllllllll")
         # print(img_id,"iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii")
         img_lst=[]
         img_lst.append(img_id)
-        print(img_lst)
+        # print(img_lst)
         for i in lst:
             img_lst.append(i)
         all_image.append(img_lst)
         # all_image=[j[1:] for j in all_image]
        
-    print("qqqqqqqqqqqqqqqqqqqqqqqqqqq:  ", all_image)
+    # print("qqqqqqqqqqqqqqqqqqqqqqqqqqq:  ", all_image)
 
     return render(request, "index.html", {'final_images': all_image })
 
